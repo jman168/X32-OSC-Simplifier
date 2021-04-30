@@ -81,18 +81,18 @@ class X32:
             logging.warning("Cannot control DCAs greater than 8.")
             return
         self.send_message(f"/dca/{dca}/on", "OFF")
-        logging.info(f" Muting dca {dca}")
+        logging.info(f" Muting DCA {dca}")
 
     def unmute_dca(self, dca: int):
         if(dca>8):
             logging.warning("Cannot control DCAs greater than 8.")
             return
         self.send_message(f"/dca/{dca}/on", "ON")
-        logging.info(f" Unmuting dca {dca}")
+        logging.info(f" Unmuting DCA {dca}")
 
     def set_dca_fader(self, dca: int, value: float):
         if(dca>8):
             logging.warning("Cannot control DCAs greater than 8.")
             return
         self.send_message(f"/dca/{dca}/fader", value)
-        logging.info(f" Setting dca {dca} fader to {value}")
+        logging.info(f" Setting DCA {dca} fader to {value}")
