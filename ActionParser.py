@@ -40,6 +40,30 @@ class ActionParser:
             if(action[1] == 'd'):  
                 self.__console.set_dca_fader(self.get_channel_number(action), paremeter)
 
+        elif(action[0] == 'd'):
+            group_action, dca = self.group_perameter(action)
+            if(action[1] == 'c'):
+                if(group_action == 'a'):
+                    self.__console.add_channel_to_dca(self.get_channel_number(action), dca)
+                if(group_action == 'r'):
+                    self.__console.remove_channel_from_dca(self.get_channel_number(action), dca)
+                if(group_action == 'c'):
+                    self.__console.clear_channel_dcas(self.get_channel_number(action))
+            if(action[1] == 'a'):
+                if(group_action == 'a'):
+                    self.__console.add_auxin_to_dca(self.get_channel_number(action), dca)
+                if(group_action == 'r'):
+                    self.__console.remove_auxin_from_dca(self.get_channel_number(action), dca)
+                if(group_action == 'c'):
+                    self.__console.clear_auxin_dcas(self.get_channel_number(action))
+            if(action[1] == 'b'):
+                if(group_action == 'a'):
+                    self.__console.add_bus_to_dca(self.get_channel_number(action), dca)
+                if(group_action == 'r'):
+                    self.__console.remove_bus_from_dca(self.get_channel_number(action), dca)
+                if(group_action == 'c'):
+                    self.__console.clear_bus_dcas(self.get_channel_number(action))
+
         else:
             logging.warning(f" Unrecognized action charater '{action[0]}'")
 
@@ -51,3 +75,10 @@ class ActionParser:
 
     def float_peramerter(self, action: str):
         return float(action.split(':')[1])
+
+    def group_perameter(self, action: str):
+        char = action.split(':')[1][0]
+        if(char == 'c'):
+            return(char, 0)
+        else:    
+            return (char, int(action.split(':')[1][1:]))

@@ -11,7 +11,7 @@ from ActionParser import ActionParser
 
 logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.INFO)
 
-console = X32("10.192.97.134")
+console = X32("127.0.0.2")
 action_parser = ActionParser(console)
 
 def handle_default(address, *args):
@@ -27,7 +27,7 @@ def main():
     disp.set_default_handler(handle_default)
     disp.map("/SOSC", handle_simple_osc)
 
-    server = osc_server.ThreadingOSCUDPServer(("127.0.0.1", 10023), disp)
+    server = osc_server.BlockingOSCUDPServer(("localhost", 9999), disp)
 
     server.serve_forever()
 

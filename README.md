@@ -60,3 +60,17 @@ The Fader Set action has an action character of 'f' and can be used to set chann
 ```/SOSC "fc4:0.5"``` this action would set the standard input channel 4 fader to half way <br>
 ```/SOSC "fa4:0.0"``` this action would set the auxin 4 fader all the way down <br>
 ```/SOSC "fb7:1.0"``` this action would set the Mix Bus 7 fader all the way up <br>
+
+## DCA Assign ['d']
+### Description
+The DCA Assign action has an action character of 'd' and can be used to add, remove, or clear a channels DCAs. Note: DCAs cannot be assigned to another DCA.
+### Parameters
+| Parameter | Description |
+--- | ---
+| a[any integer from 1-8] | this perimeter will add the specified channel to the specified DCA (the integer in the perimeter, see Example Usage below) |
+| r[any integer from 1-8] | this perimeter will remove the specified channel from the specified DCA (the integer in the perimeter, see Example Usage below) |
+| c | this perimeter will remove the specified channel from all DCAs |
+### Example Usage
+```/SOSC "dc1:a1"``` this action would add standard input channel 1 to DCA 1 <br>
+```/SOSC "dc2:r5"``` this action would remove standard input channel 2 from DCA 5 <br>
+```/SOSC "dm3:c"``` this action would remove Mix Bus 3 from all DCAs <br>
