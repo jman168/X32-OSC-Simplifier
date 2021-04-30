@@ -81,7 +81,7 @@ class X32:
         current_bit_map = int(self.get_peremeter(f"/ch/{str(channel).zfill(2)}/grp/dca")[0])
         new_bit_map = self.set_bit_map(current_bit_map, dca, False)
         self.send_message(f"/ch/{str(channel).zfill(2)}/grp/dca", new_bit_map)
-        logging.info(f" Removing channel {channel} to DCA {dca}")
+        logging.info(f" Removing channel {channel} from DCA {dca}")
 
     def clear_channel_dcas(self, channel: int):
         if(channel>32):
@@ -90,6 +90,34 @@ class X32:
 
         self.send_message(f"/ch/{str(channel).zfill(2)}/grp/dca", 0)
         logging.info(f" Removing channel {channel} from all DCAs")
+
+    def add_channel_to_group(self, channel: int, group: int):
+        if(channel>32 or group>6):
+            logging.warning("Cannot control channels greater than 32 or mute groups greater than 6.")
+            return
+
+        current_bit_map = int(self.get_peremeter(f"/ch/{str(channel).zfill(2)}/grp/mute")[0])
+        new_bit_map = self.set_bit_map(current_bit_map, group, True)
+        self.send_message(f"/ch/{str(channel).zfill(2)}/grp/mute", new_bit_map)
+        logging.info(f" Adding channel {channel} to mute group {group}")
+
+    def remove_channel_from_group(self, channel: int, group: int):
+        if(channel>32 or group>6):
+            logging.warning("Cannot control channels greater than 32 or mute groups greater than 6.")
+            return
+
+        current_bit_map = int(self.get_peremeter(f"/ch/{str(channel).zfill(2)}/grp/mute")[0])
+        new_bit_map = self.set_bit_map(current_bit_map, group, False)
+        self.send_message(f"/ch/{str(channel).zfill(2)}/grp/mute", new_bit_map)
+        logging.info(f" Removing channel {channel} from mute group {group}")
+
+    def clear_channel_groups(self, channel: int):
+        if(channel>32):
+            logging.warning("Cannot control channels greater than 32.")
+            return
+
+        self.send_message(f"/ch/{str(channel).zfill(2)}/grp/mute", 0)
+        logging.info(f" Removing channel {channel} from all mute groups")
 
 
     # Commands for auxins
@@ -132,7 +160,7 @@ class X32:
         current_bit_map = int(self.get_peremeter(f"/auxin/{str(auxin).zfill(2)}/grp/dca")[0])
         new_bit_map = self.set_bit_map(current_bit_map, dca, False)
         self.send_message(f"/auxin/{str(auxin).zfill(2)}/grp/dca", new_bit_map)
-        logging.info(f" Removing auxin {auxin} to DCA {dca}")
+        logging.info(f" Removing auxin {auxin} from DCA {dca}")
 
     def clear_auxin_dcas(self, auxin: int):
         if(auxin>8):
@@ -141,6 +169,34 @@ class X32:
 
         self.send_message(f"/auxin/{str(auxin).zfill(2)}/grp/dca", 0)
         logging.info(f" Removing auxin {auxin} from all DCAs")
+
+    def add_auxin_to_group(self, auxin: int, group: int):
+        if(auxin>8 or group>6):
+            logging.warning("Cannot control auxins greater than 8 or mute groups greater than 6.")
+            return
+
+        current_bit_map = int(self.get_peremeter(f"/auxin/{str(auxin).zfill(2)}/grp/mute")[0])
+        new_bit_map = self.set_bit_map(current_bit_map, group, True)
+        self.send_message(f"/auxin/{str(auxin).zfill(2)}/grp/mute", new_bit_map)
+        logging.info(f" Adding auxin {auxin} to mute group {group}")
+
+    def remove_auxin_from_group(self, auxin: int, group: int):
+        if(auxin>8 or group>6):
+            logging.warning("Cannot control auxins greater than 8 or mute groups greater than 6.")
+            return
+
+        current_bit_map = int(self.get_peremeter(f"/auxin/{str(auxin).zfill(2)}/grp/mute")[0])
+        new_bit_map = self.set_bit_map(current_bit_map, group, False)
+        self.send_message(f"/auxin/{str(auxin).zfill(2)}/grp/mute", new_bit_map)
+        logging.info(f" Removing auxin {auxin} from mute group {group}")
+
+    def clear_auxin_groups(self, auxin: int):
+        if(auxin>8):
+            logging.warning("Cannot control auxins greater than 8.")
+            return
+
+        self.send_message(f"/auxin/{str(auxin).zfill(2)}/grp/mute", 0)
+        logging.info(f" Removing auxin {auxin} from all mute groups")
 
 
     # Commands for busses
@@ -183,7 +239,7 @@ class X32:
         current_bit_map = int(self.get_peremeter(f"/bus/{str(bus).zfill(2)}/grp/dca")[0])
         new_bit_map = self.set_bit_map(current_bit_map, dca, False)
         self.send_message(f"/bus/{str(bus).zfill(2)}/grp/dca", new_bit_map)
-        logging.info(f" Removing bus {bus} to DCA {dca}")
+        logging.info(f" Removing bus {bus} from DCA {dca}")
 
     def clear_bus_dcas(self, bus: int):
         if(bus>16):
@@ -192,6 +248,34 @@ class X32:
 
         self.send_message(f"/bus/{str(bus).zfill(2)}/grp/dca", 0)
         logging.info(f" Removing bus {bus} from all DCAs")
+
+    def add_bus_to_group(self, bus: int, group: int):
+        if(bus>16 or group>6):
+            logging.warning("Cannot control busses greater than 16 or mute groups greater than 6.")
+            return
+
+        current_bit_map = int(self.get_peremeter(f"/bus/{str(bus).zfill(2)}/grp/mute")[0])
+        new_bit_map = self.set_bit_map(current_bit_map, group, True)
+        self.send_message(f"/bus/{str(bus).zfill(2)}/grp/mute", new_bit_map)
+        logging.info(f" Adding bus {bus} to mute group {group}")
+
+    def remove_bus_from_group(self, bus: int, group: int):
+        if(bus>16 or group>6):
+            logging.warning("Cannot control busses greater than 16 or mute groups greater than 6.")
+            return
+
+        current_bit_map = int(self.get_peremeter(f"/bus/{str(bus).zfill(2)}/grp/mute")[0])
+        new_bit_map = self.set_bit_map(current_bit_map, group, False)
+        self.send_message(f"/bus/{str(bus).zfill(2)}/grp/mute", new_bit_map)
+        logging.info(f" Removing bus {bus} from mute group {group}")
+
+    def clear_bus_groups(self, bus: int):
+        if(bus>16):
+            logging.warning("Cannot control busses greater than 16.")
+            return
+
+        self.send_message(f"/bus/{str(bus).zfill(2)}/grp/mute", 0)
+        logging.info(f" Removing bus {bus} from all mute groups")
 
 
     # Commands for DCAs

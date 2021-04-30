@@ -74,3 +74,17 @@ The DCA Assign action has an action character of 'd' and can be used to add, rem
 ```/SOSC "dc1:a1"``` this action would add standard input channel 1 to DCA 1 <br>
 ```/SOSC "dc2:r5"``` this action would remove standard input channel 2 from DCA 5 <br>
 ```/SOSC "dm3:c"``` this action would remove Mix Bus 3 from all DCAs <br>
+
+## Mute Group Assign ['g']
+### Description
+The Mute Group Assign action has an action character of 'g' and can be used to add, remove, or clear a channels mute groups. Note: DCAs cannot be assigned to mute groups.
+### Parameters
+| Parameter | Description |
+--- | ---
+| a[any integer from 1-6] | this perimeter will add the specified channel to the specified mute group (the integer in the perimeter, see Example Usage below) |
+| r[any integer from 1-6] | this perimeter will remove the specified channel from the specified mute group (the integer in the perimeter, see Example Usage below) |
+| c | this perimeter will remove the specified channel from all mute groups |
+### Example Usage
+```/SOSC "gc4:a1"``` this action would add standard input channel 4 to mute group 1 <br>
+```/SOSC "gc5:r5"``` this action would remove standard input channel 5 from mute group 5 <br>
+```/SOSC "ga5:c"``` this action would remove auxin 5 from all mute groups <br>
