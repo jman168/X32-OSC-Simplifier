@@ -215,13 +215,3 @@ class X32:
             return
         self.send_message(f"/dca/{dca}/fader", value)
         logging.info(f" Setting DCA {dca} fader to {value}")
-
-    def add_dca_to_dca(self, dca_channel: int, dca: int):
-        if(dca_channel>8 or dca>8):
-            logging.warning("Cannot control DCAs greater than 8.")
-            return
-
-        current_bit_map = int(self.get_peremeter(f"/dca/{dca_channel}/grp/dca")[0])
-        new_bit_map = self.set_bit_map(current_bit_map, dca, True)
-        self.send_message(f"/dca/{dca_channel}/grp/dca", new_bit_map)
-        logging.info(f" Adding DCA {dca_channel} to DCA {dca}")
