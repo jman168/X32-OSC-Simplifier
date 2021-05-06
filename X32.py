@@ -9,8 +9,10 @@ from bitarray import bitarray
 class X32:
     def __init__(self, address):
         self.disp = dispatcher.Dispatcher()
-        self.server = osc_server.BlockingOSCUDPServer(("localhost", 10023), self.disp)
+        self.disp.set_default_handler(print)
+        self.server = osc_server.BlockingOSCUDPServer(("0.0.0.0", 10023), self.disp)
         self.client = udp_client.SimpleUDPClient(address, 10023)
+        self.server.socket = self.client._sock
 
     def send_message(self, address, *args):
         self.client.send_message(address, args)

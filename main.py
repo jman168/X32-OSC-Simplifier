@@ -11,12 +11,12 @@ from ActionParser import ActionParser
 
 logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.INFO)
 
-console = X32("127.0.0.2")
+console = X32("192.168.9.225")
 action_parser = ActionParser(console)
 
 def handle_default(address, *args):
     logging.info(f" Passing command with address \"{address}\" to X32")
-    # console.send_message(address, args)
+    console.send_message(address, *args) 
 
 def handle_simple_osc(address, *args):
     for arg in args:
@@ -27,7 +27,7 @@ def main():
     disp.set_default_handler(handle_default)
     disp.map("/SOSC", handle_simple_osc)
 
-    server = osc_server.BlockingOSCUDPServer(("localhost", 9999), disp)
+    server = osc_server.BlockingOSCUDPServer(("0.0.0.0", 9999), disp)
 
     server.serve_forever()
 
