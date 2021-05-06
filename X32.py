@@ -5,6 +5,7 @@ from pythonosc import dispatcher
 from pythonosc import osc_server
 from bitarray import bitarray
 
+import time
 
 class X32:
     def __init__(self, address):
@@ -13,6 +14,16 @@ class X32:
         self.server = osc_server.BlockingOSCUDPServer(("0.0.0.0", 10023), self.disp)
         self.client = udp_client.SimpleUDPClient(address, 10023)
         self.server.socket = self.client._sock
+
+        logging.info(" Testing faders...")
+        for i in range(1, 17):
+            logging.debug(f" Testing channel {i}")
+            self.test_fader(f"/ch/{str(i).zfill(2)}", False)
+        for i in range(1, 9):
+            logging.debug(f" Testing DCA {i}")
+            self.test_fader(f"/dca/{i}", True)
+        logging.info(" Done!")
+        logging.info(" X32 Ready!")
 
     def send_message(self, address, *args):
         self.client.send_message(address, args)
@@ -42,6 +53,24 @@ class X32:
         bit_map[bit-1] = value
         return bit_map.tobytes()[0]
 
+    def test_fader(self, fader_path, is_dca):
+        if is_dca:
+            subpath = "/"
+        else:
+            subpath = "/mix/"
+        
+        mute_status = self.get_peremeter(fader_path+subpath+"on")[0]
+        fader_pos = self.get_peremeter(fader_path+subpath+"fader")[0]
+            
+        self.send_message(fader_path+subpath+"on", "OFF")
+        self.send_message(fader_path+subpath+"fader", 1.0)
+
+        time.sleep(0.25)
+        self.send_message(fader_path+subpath+"fader", 0.0)
+        time.sleep(0.25)
+
+        self.send_message(fader_path+subpath+"on", mute_status)
+        self.send_message(fader_path+subpath+"fader", fader_pos)
 
     # Commands for channels
     def mute_channel(self, channel: int):

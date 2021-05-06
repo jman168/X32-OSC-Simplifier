@@ -7,11 +7,15 @@ from pythonosc import udp_client
 from pythonosc import dispatcher
 from pythonosc import osc_server
 from X32 import X32
+from X32Locater import X32Locater
 from ActionParser import ActionParser
 
 logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.INFO)
 
-console = X32("192.168.9.225")
+locater = X32Locater("192.168.9.255")
+ip = locater.locate()
+
+console = X32(ip)
 action_parser = ActionParser(console)
 
 def handle_default(address, *args):
